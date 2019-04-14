@@ -1,4 +1,4 @@
-# react-phaser-starfall-example
+# react-phaser-starfall-typescript-example
 
 An endless game of "catch the falling stars" written in React v16, Phaser v3, TypeScript and scaffolded with Create React App.
 
@@ -26,9 +26,9 @@ yarn start
 ## Introduction
 This game is my exploring on how to create a game with two major stacks in mind (with two supporting tools):
 - [`phaser`](https://github.com/photonstorm/phaser) (version 3) for the frame-by-frame game scene logic.
-- [`react`](https://github.com/facebook/react) (version 16.8, with [Hooks](https://reactjs.org/docs/hooks-intro.html)) to construct the rest of the UI logic which doesn't need to happen in the game scene.
-- [`create-react-app`](https://github.com/facebook/create-react-app) helped scaffold the codebase quickly and painlessly.
-- [TypeScript](https://github.com/Microsoft/TypeScript) serves as a supporting type-safety framework over the JavaScript code.
+- [`react`](https://github.com/facebook/react) (version 16.8, with [Hooks](https://reactjs.org/docs/hooks-intro.html)) to build the rest of the UI logic which doesn't involve game scene computations.
+- [`create-react-app`](https://github.com/facebook/create-react-app) to help scaffold the codebase quickly and painlessly.
+- [TypeScript](https://github.com/Microsoft/TypeScript) (version 3.4) serve as type-safety control over the JavaScript code.
 
 My intended purpose (and firm belief) of putting these two stacks together was to isolate the more mundane stuff from the potentially computationally expensive per-tick update of the core game logic so that the game logic itself can put all of its efforts into the gameplay. That means I'm transferring these things from `phaser`'s `update()` lifecycle method to `react`'s `this.state`:
 - the score text
