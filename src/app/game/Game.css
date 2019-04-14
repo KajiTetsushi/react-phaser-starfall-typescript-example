@@ -1,0 +1,27 @@
+.game {
+  color: #ffffff;
+  position: relative;
+}
+
+.game .game-controls {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.game .game-header {
+  color: #ffffff;
+  text-align: center;
+}
+
+.game .game-header * {
+  margin: 0;
+}
+
+.game .game-header h1 {
+  padding: 1em 0;
+}
+
+.game .game-header h2 {
+  padding: 0.5em 0;
+}
