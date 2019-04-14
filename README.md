@@ -3,6 +3,26 @@
 An endless game of "catch the falling stars" written in React v16, Phaser v3, TypeScript and scaffolded with Create React App.
 
 -----
+## Running the App
+
+You'll need the latest versions of [Node](https://nodejs.org/) and [Yarn](https://yarnpkg.com/) installed on your local machine.
+
+Then follow these steps:
+
+1. Clone this repository via `git clone` or [download it](https://github.com/KajiTetsushi/react-phaser-starfall-example/archive/master.zip).
+2. `yarn` to install all dependencies.
+3. `yarn start` to start the app on http://localhost:3000.
+
+Do it like this on terminal / command prompt:
+
+```
+git clone https://github.com/KajiTetsushi/react-phaser-starfall-example.git
+cd react-phaser-starfall-example
+yarn
+yarn start
+```
+
+-----
 ## Introduction
 This game is my exploring on how to create a game with two major stacks in mind (with two supporting tools):
 - [`phaser`](https://github.com/photonstorm/phaser) (version 3) for the frame-by-frame game scene logic.
@@ -22,13 +42,10 @@ One last reason I wrote this is that, well, I come from the `react` world, so I'
 
 ------
 ## `create-react-app` documentation
-Oh, it's still around. I've just renamed it so that this readme will be the repository's main document. If you want to run the app, check out the instructions below. For the rest of the details, [click here for the Create React App readme.](CREATE-REACT-APP-README.md)
-
-- `yarn` to install all dependencies.
-- `yarn start` to start the app on http://localhost:3000.
+Oh, it's still around. I've just renamed it so that this readme will be the repository's main document. [Click here for the `create-react-app` readme.](CREATE-REACT-APP-README.md)
 
 ------
-## To Do on My Part
+## To Do
 
 - Write a [`redux`](https://github.com/reduxjs/redux)-integrated example.
 - Write proper tests.
