@@ -1,16 +1,22 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, FunctionComponent } from 'react';
 
 import './GameScore.css';
 
-interface GameScoreProps {
-  caught: number;
-  fallen: number;
-  maxFallen: number;
-}
+export type GameScoreProps = {
+  starsCaught?: number;
+  starsFallen?: number;
+  starsFallenMax?: number;
+};
 
-export const GameScore = function GameScore({ caught, fallen, maxFallen }: GameScoreProps) {
-  const caughtText = `${caught} caught `;
-  const fallenText = `${fallen} fallen (max: ${maxFallen})`;
+export const GameScore: FunctionComponent<GameScoreProps> = (props) => {
+  const {
+    starsCaught,
+    starsFallen,
+    starsFallenMax,
+  } = props;
+
+  const caughtText = `${starsCaught} caught `;
+  const fallenText = `${starsFallen} fallen (max: ${starsFallenMax})`;
 
   return (
     <Fragment>
@@ -22,4 +28,4 @@ export const GameScore = function GameScore({ caught, fallen, maxFallen }: GameS
       </div>
     </Fragment>
   );
-}
+};

@@ -1,5 +1,4 @@
-import { Scene, Physics, GameObjects, Actions, Geom, Math as Mathematics } from 'phaser';
-import { start } from 'repl';
+import { Scene, Physics, Actions, Geom, Math as Mathematics } from 'phaser';
 
 export class GameScene extends Scene {
   delta: number = 1000;
@@ -8,10 +7,8 @@ export class GameScene extends Scene {
   starsFallen: number = 0;
   starsMaxFallen: number = 0;
   sand!: Physics.Arcade.StaticGroup;
-  // TODO: Delegate this to React.
-  // info!: GameObjects.Text;
 
-  static maxFallenStars: number = 3;
+  static maxFallenStars: number = 1;
 
   constructor() {
     super({
@@ -42,14 +39,6 @@ export class GameScene extends Scene {
     );
 
     this.sand.refresh();
-
-    // TODO: Delegate this to React.
-    // const textStyle = {
-    //   font: '24px Arial Bold',
-    //   fill: '#FBFBAC'
-    // };
-
-    // this.info = this.add.text(10, 10, '', textStyle);
   }
 
   update(time: number) {
@@ -64,19 +53,12 @@ export class GameScene extends Scene {
 
       this.emitStar();
     }
-
-    // TODO: Delegate this to React.
-    // this.info.text = `${this.starsCaught} caught - ${this.starsFallen} fallen (max: ${this.starsMaxFallen})`;
   }
 
   stopScene = () => {
     if (this.starsFallen < this.starsMaxFallen) {
       return;
     }
-
-    // this.scene.start('ScoreScene', {
-    //   starsCaught: this.starsCaught,
-    // });
 
     this.game.events.emit('onscenestop');
 
@@ -97,9 +79,7 @@ export class GameScene extends Scene {
     star.setTint(0x00ff00);
     star.setVelocity(0, 0);
     this.starsCaught += 1;
-    this.game.events.emit('onstarcaught', {
-      starsCaught: this.starsCaught,
-    });
+    this.game.events.emit('onstarcaught', this.starsCaught);
     this.time.delayedCall(
       100,
       this.destroyStar(star),
@@ -111,9 +91,7 @@ export class GameScene extends Scene {
   handleCollide = (star: Physics.Arcade.Image) => () => {
     star.setTint(0xff0000);
     this.starsFallen += 1;
-    this.game.events.emit('onstarfallen', {
-      starsFallen: this.starsFallen,
-    });
+    this.game.events.emit('onstarfallen', this.starsFallen);
     this.time.delayedCall(
       100,
       this.destroyStar(star, this.stopScene),

@@ -1,12 +1,12 @@
-import React, { useState, Fragment } from 'react';
+import React, { FunctionComponent, Fragment, useState } from 'react';
 
-import { Welcome } from './welcome/Welcome';
-import { Game } from './game/Game';
-import { GameOver } from './game-over/GameOver';
+import { Welcome } from './welcome';
+import { Game } from './game';
+import { GameOver } from './game-over';
 
-export const App = function App() {
-  const [ mode, setModeState ] = useState('welcome');
-  const [ score, setScoreState ] = useState(0);
+export const App: FunctionComponent = () => {
+  const [ mode, setMode ] = useState('welcome');
+  const [ score, setScore ] = useState(0);
   const title = 'Starfall';
 
   switch (mode) {
@@ -14,7 +14,7 @@ export const App = function App() {
       return (
         <Welcome
           header={title}
-          onPlayClick={() => setModeState(() => 'game')}
+          onPlayClick={() => setMode(() => 'game')}
         />
       );
     case 'game':
@@ -22,12 +22,12 @@ export const App = function App() {
         <Game
           {...{title}}
           onSceneStop={(score) => {
-            setScoreState(() => score);
-            setModeState(() => 'gameover');
+            setScore(() => score);
+            setMode(() => 'gameover');
           }}
           onGameStop={(score) => {
-            setScoreState(() => score);
-            setModeState(() => 'gameover');
+            setScore(() => score);
+            setMode(() => 'gameover');
           }}
         />
       );
@@ -36,12 +36,12 @@ export const App = function App() {
         <GameOver
           {...{score}}
           onReplayClick={() => {
-            setScoreState(() => 0);
-            setModeState(() => 'game');
+            setScore(() => 0);
+            setMode(() => 'game');
           }}
           onEndClick={() => {
-            setScoreState(() => 0);
-            setModeState(() => 'welcome');
+            setScore(() => 0);
+            setMode(() => 'welcome');
           }}
         />
       );
@@ -52,4 +52,4 @@ export const App = function App() {
         </Fragment>
       );
   }
-}
+};
