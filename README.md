@@ -19,10 +19,7 @@ You'll need the latest versions of [Node](https://nodejs.org/) and [Yarn](https:
 Then follow these steps:
 
 1. Clone this repository via `git clone` or [download it](https://github.com/KajiTetsushi/react-phaser-starfall-example/archive/master.zip).
-2. `yarn` to install all dependencies.
-3. `yarn start` to start the app on [http://localhost:3000](http://localhost:3000).
-
-Do it like this on terminal / command prompt:
+2. Follow the commands below on your preferred terminal.
 
 ```sh
 git clone https://github.com/KajiTetsushi/react-phaser-starfall-example.git
