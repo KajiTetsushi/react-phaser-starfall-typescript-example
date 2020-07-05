@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { FunctionComponent, ReactNode } from 'react';
 
-interface WelcomeProps {
-  header: string;
-  onPlayClick: () => void;
-}
+export type WelcomeProps = {
+  header?: ReactNode;
+  onPlayClick?: () => void;
+};
 
-export const Welcome = function Welcome({ header, onPlayClick }: WelcomeProps) {
+export const Welcome: FunctionComponent<WelcomeProps> = (props) => {
+  const {
+    header,
+    onPlayClick,
+  } = props;
+
   return (
     <div>
       <h1>

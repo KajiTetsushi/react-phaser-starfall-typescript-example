@@ -1,55 +1,52 @@
-import React, { Component } from 'react';
+import React, { FunctionComponent, useRef, useState } from 'react';
 import { Game as _Game, AUTO } from 'phaser';
 
-import { getViewportDimensions } from '../utils/get-viewport-dimensions';
+import { getViewportDimensions, useWillMount, useWillUnmount } from '../utils';
 import { GameScore } from './GameScore';
 import { GameScene } from './GameScene';
 import { GameStopButton } from './GameStopButton';
 
 import './Game.css';
 
-interface GameConfig {
-  type: number;
-  width: number;
-  height: number;
-  backgroundColor: string;
-  parent: string;
-  scene: any;
-  physics: object;
-}
+export type GameProps = {
+  onSceneStop?: (score: number) => void;
+  onGameStop?: (score: number) => void;
+  backgroundColor?: string;
+  title?: string;
+};
 
-interface GameProps {
-  onSceneStop: (score: number) => void;
-  onGameStop: (score: number) => void;
-  backgroundColor: string;
-  title: string;
-}
+export const Game: FunctionComponent<GameProps> = (props) => {
+  const canvasContainerId = 'game';
+  const {
+    backgroundColor = '#18216D',
+    title,
+    onGameStop,
+    onSceneStop,
+  } = props;
 
-interface GameState {
-  starsCaught: number;
-  starsFallen: number;
-  starsMaxFallen: number;
-}
+  const [ starsCaught, setStarsCaught ] = useState(0);
+  const [ starsFallen, setStarsFallen ] = useState(0);
+  const gameRef = useRef<_Game>();
+  const starsCaughtRef = useRef(starsCaught);
+  starsCaughtRef.current = starsCaught;
 
-export class Game extends Component<GameProps, GameState> {
-  game: _Game;
-  parentId: string = 'game';
-
-  static defaultProps = {
-    backgroundColor: '#18216D',
+  const handleSceneStop = () => {
+    typeof onSceneStop === 'function' && onSceneStop(starsCaughtRef.current);
   };
 
-  constructor(props: GameProps) {
-    super(props);
+  const handleGameStop = () => {
+    typeof onGameStop === 'function' && onGameStop(starsCaught);
+  };
 
+  useWillMount(() => {
     const viewportDimensions = getViewportDimensions();
     viewportDimensions.height = viewportDimensions.height * 0.85;
 
-    const gameConfig: GameConfig = {
+    const game = new _Game({
       ...viewportDimensions,
-      backgroundColor: props.backgroundColor,
+      backgroundColor: backgroundColor,
       type: AUTO,
-      parent: this.parentId,
+      parent: canvasContainerId,
       scene: GameScene,
       physics: {
         default: 'arcade',
@@ -57,81 +54,48 @@ export class Game extends Component<GameProps, GameState> {
           debug: false,
         },
       },
-    };
+    });
 
-    this.game = new _Game(gameConfig);
-    this.game.events.on('onstarcaught', this.handleStarCaught);
-    this.game.events.on('onstarfallen', this.handleStarFallen);
-    this.game.events.on('onscenestop', this.handleSceneStop);
+    game.events.on('onstarcaught', setStarsCaught);
+    game.events.on('onstarfallen', setStarsFallen);
+    game.events.on('onscenestop', handleSceneStop);
 
-    this.state = {
-      starsCaught: 0,
-      starsFallen: 0,
-      starsMaxFallen: GameScene.maxFallenStars,
-    };
-  }
+    gameRef.current = game;
+  });
 
-  componentWillUnmount() {
-    this.game.destroy(true);
-  }
-  
-  handleStarCaught = ({ starsCaught }: { starsCaught: number }) => {
-    this.setState(() => ({
-      starsCaught,
-    }));
-  }
+  useWillUnmount(() => {
+    gameRef.current && gameRef.current.destroy(true);
+  });
 
-  handleStarFallen = ({ starsFallen }: { starsFallen: number }) => {
-    this.setState(() => ({
-      starsFallen,
-    }));
-  }
+  // gameRef.current && gameRef.current.events.on('onscenestop', handleSceneStop);
 
-  handleSceneStop = () => {
-    this.props.onSceneStop(this.state.starsCaught);
-  }
-
-  handleGameStop = () => {
-    this.props.onGameStop(this.state.starsCaught);
-  }
-
-  render() {
-    const {
-      starsCaught: caught,
-      starsFallen: fallen,
-      starsMaxFallen: maxFallen,
-    } = this.state;
-
-    const { backgroundColor, title } = this.props;
-
-    return (
-      <div className="game">
-        <div
-          className="game-header"
-          style={{ backgroundColor }}
-        >
-          <h1>
-            {title}
-          </h1>
-          <h2>
-            Click on the stars to catch them!
+  return (
+    <div className="game">
+      <div
+        className="game-header"
+        style={{ backgroundColor }}
+      >
+        <h1>
+          {title}
+        </h1>
+        <h2>
+          Click on the stars to catch them!
           </h2>
-        </div>
-        <div className="game-controls">
-          <h1>
-            <GameScore
-              {...{ caught }}
-              {...{ fallen }}
-              {...{ maxFallen }}
-            />
-            <GameStopButton
-              onStopClick={this.handleGameStop}
-              content="Give up"
-            />
-          </h1>
-        </div>
-        <div id={this.parentId} />
       </div>
-    );
-  }
-}
+      <div className="game-controls">
+        <h1>
+          <GameScore
+            starsCaught={starsCaught}
+            starsFallen={starsFallen}
+            starsFallenMax={GameScene.maxFallenStars}
+          />
+          <GameStopButton
+            onStopClick={handleGameStop}
+            content="Give up"
+          />
+        </h1>
+      </div>
+      <div id={canvasContainerId} />
+    </div>
+  );
+};

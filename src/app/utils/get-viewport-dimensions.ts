@@ -1,4 +1,9 @@
-export const getViewportDimensions = function getViewportDimensions(): { width: number; height: number; } {
+export type ViewportDimensions = {
+  width: number;
+  height: number;
+};
+
+export const getViewportDimensions = (): ViewportDimensions => {
   let width = 0;
   let height = 0;
 
@@ -29,4 +34,4 @@ export const getViewportDimensions = function getViewportDimensions(): { width: 
     width,
     height,
   };
-}
+};

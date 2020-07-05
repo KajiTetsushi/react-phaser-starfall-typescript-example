@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { ReactNode, FunctionComponent } from 'react';
 
-interface GameStopButtonProps {
-  content: any;
+export type GameStopButtonProps = {
+  content?: ReactNode;
   onStopClick: () => void;
-}
+};
 
-export const GameStopButton = function GameStopButton({ onStopClick, content }: GameStopButtonProps) {
+export const GameStopButton: FunctionComponent<GameStopButtonProps> = (props) => {
+  const {
+    onStopClick,
+    content,
+  } = props;
+
   return (
     <button onClick={onStopClick}>
       {content}
