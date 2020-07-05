@@ -6,6 +6,7 @@ An endless game of "catch the falling stars" written in React v16, Phaser v3, Ty
 
 - [Running the App](#running-the-app)
 - [Introduction](#introduction)
+- [Technologies Used](#technologies-used)
   - [I Have My Reasons](#i-have-my-reasons)
 - [`create-react-app` documentation](#create-react-app-documentation)
 - [Resources](#resources)
@@ -30,7 +31,7 @@ yarn start
 
 ## Introduction
 
-My code explores the possibility of creating a game with two major stacks in mind:
+## Technologies Used
 
 - [`phaser`](https://github.com/photonstorm/phaser) for the frame-by-frame game scene logic.
 - [`react`](https://github.com/facebook/react) to build the rest of the UI logic which doesn't involve game scene computations.
